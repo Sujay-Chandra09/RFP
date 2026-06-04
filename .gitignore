@@ -1,0 +1,25 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Java Build artifacts
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+**/build/
+
+# Python artifacts
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.pytest_cache/
+**/venv/
+**/env/
+**/.env
+**/.venv

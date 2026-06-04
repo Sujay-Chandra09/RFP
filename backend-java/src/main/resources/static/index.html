@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSwift – Instant Medicine Delivery & Smart Safety Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- SVG Gradients Definition -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--primary)" />
+                <stop offset="100%" stop-color="var(--secondary)" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <header>
+            <nav class="nav-bar glass">
+                <div class="logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    MediSwift
+                </div>
+                
+                <ul class="nav-links" id="nav-links-container">
+                    <li><span class="nav-link active" data-target="catalog" id="link-catalog">Browse Catalog</span></li>
+                    <li><span class="nav-link" data-target="orders" id="link-orders">Order History</span></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="cart-icon-btn" id="cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-badge" id="cart-badge-count" style="display: none;">0</span>
+                    </button>
+                    
+                    <button class="btn btn-secondary" id="nav-auth-btn">Sign In</button>
+                    
+                    <div id="nav-user-profile" style="display: none; align-items: center; gap: 12px;">
+                        <span id="user-display-name" style="font-weight: 600; font-size: 14px;">User</span>
+                        <button class="btn btn-secondary btn-sm" id="signout-btn">Sign Out</button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- View Section: Authentication -->
+        <section id="auth-section" class="view-section" style="display: none;">
+            <div class="auth-wrapper">
+                <div class="auth-card glass">
+                    <div id="login-form-box">
+                        <div class="auth-header">
+                            <h2>Welcome to MediSwift</h2>
+                            <p>Sign in to proceed to your panel</p>
+                        </div>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-pass">Password</label>
+                                <input type="password" id="login-pass" class="form-control" placeholder="••••••••" required>
+                            </div>
+                            <div id="login-error" style="color: var(--danger); font-size: 13px; margin-bottom: 12px;"></div>
+                            <button type="submit" class="btn btn-primary auth-btn">Sign In</button>
+                        </form>
+                        <p class="auth-footer-text">Don't have an account? <span id="toggle-signup">Register here</span></p>
+                    </div>
+
+                    <div id="signup-form-box" style="display: none;">
+                        <div class="auth-header">
+                            <h2>Create Account</h2>
+                            <p>Join MediSwift as a Customer or Delivery Partner</p>
+                        </div>
+                        <form id="signup-form">
+                            <div class="form-group">
+                                <label for="signup-email">Email Address</label>
+                                <input type="email" id="signup-email" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-pass">Password</label>
+                                <input type="password" id="signup-pass" class="form-control" placeholder="••••••••" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-role">Register As</label>
+                                <select id="signup-role" class="form-control">
+                                    <option value="customer">Customer / Patient</option>
+                                    <option value="courier">Delivery Partner</option>
+                                </select>
+                            </div>
+                            <div id="signup-error" style="color: var(--danger); font-size: 13px; margin-bottom: 12px;"></div>
+                            <button type="submit" class="btn btn-primary auth-btn">Register</button>
+                        </form>
+                        <p class="auth-footer-text">Already registered? <span id="toggle-login">Sign in instead</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View Section: Medicine Catalog -->
+        <section id="catalog-section" class="view-section active">
+            <!-- Hero banner search -->
+            <div class="hero-banner glass">
+                <div class="hero-content">
+                    <h1>Fast, Smart Medicine Delivery at Your Doorstep</h1>
+                    <p>Search over thousands of verified medicines in INR, check generic alternatives for huge savings, and inspect chemical safety drug interactions instantly.</p>
+                    <div class="search-container">
+                        <input type="text" id="search-input" class="search-input" placeholder="Search by brand name, generic name, or category...">
+                        <button class="btn btn-primary btn-sm">Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Slider -->
+            <div class="categories-container">
+                <span class="category-capsule active" data-category="All">All</span>
+                <span class="category-capsule" data-category="Cardiology">Cardiology</span>
+                <span class="category-capsule" data-category="Antibiotics">Antibiotics</span>
+                <span class="category-capsule" data-category="Pain Relievers">Pain Relievers</span>
+                <span class="category-capsule" data-category="Diabetes">Diabetes</span>
+                <span class="category-capsule" data-category="Baby Care">Baby Care</span>
+                <span class="category-capsule" data-category="Women Care">Women Care</span>
+                <span class="category-capsule" data-category="OTC">OTC</span>
+                <span class="category-capsule" data-category="Personal Care">Personal Care</span>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-section-title">
+                <h3>Featured Catalog</h3>
+            </div>
+            <div class="product-grid" id="product-grid">
+                <!-- Javascript populates items here -->
+            </div>
+        </section>
+
+        <!-- View Section: Checkout Wizard -->
+        <section id="checkout-section" class="view-section" style="display: none;">
+            <div class="checkout-wrapper">
+                <div class="checkout-card glass">
+                    <div class="step-indicator">
+                        <div class="step-node active">
+                            <div class="step-num">1</div>
+                            <div class="step-label">Upload Rx</div>
+                        </div>
+                        <div class="step-node">
+                            <div class="step-num">2</div>
+                            <div class="step-label">Delivery Info</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom: 20px;">Upload Prescription (Optional)</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+                        Upload a photo of your prescription to let our **Python OCR Assistant** parse it. We'll automatically identify and add the prescribed medications directly to your cart!
+                    </p>
+
+                    <!-- File Drag Drop Upload box -->
+                    <div class="prescription-upload-box" id="prescription-file-box">
+                        <input type="file" id="prescription-file" style="display: none;" accept="image/*,application/pdf">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="margin-bottom: 12px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                        </svg>
+                        <h4 id="ocr-status-text">Click or Drag & Drop Prescription Image Here</h4>
+                        <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Supports PNG, JPG, PDF (Max 10MB)</p>
+                    </div>
+
+                    <!-- OCR analysis result readout -->
+                    <div class="ocr-result-panel" id="ocr-result-panel" style="display: none;"></div>
+
+                    <form id="checkout-form" style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 20px; border-top: 1px solid var(--border-color); padding-top: 20px;">Shipping Details</h3>
+                        <div class="form-group">
+                            <label for="checkout-address">Delivery Address</label>
+                            <input type="text" id="checkout-address" class="form-control" placeholder="123 Health Ave, Medical District" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-notes">Special Instructions for Courier (Optional)</label>
+                            <input type="text" id="checkout-notes" class="form-control" placeholder="e.g. Ring bell, leave at door">
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                            <button type="button" class="btn btn-secondary" onclick="showSection('catalog')">Back to Shop</button>
+                            <button type="submit" class="btn btn-primary">Place Order & Track Live</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="checkout-card glass" style="height: fit-content;">
+                    <h4 style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Order Summary</h4>
+                    <div id="checkout-summary-list"></div>
+                    <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 16px; border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px;">
+                        <span>Total Amount:</span>
+                        <span id="checkout-total-val" style="color: var(--primary)">₹0.00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View Section: Order History -->
+        <section id="orders-section" class="view-section" style="display: none;">
+            <div style="max-width: 800px; margin: 40px auto;">
+                <h3 style="margin-bottom: 24px;">Your Order History</h3>
+                <div id="order-history-list"></div>
+            </div>
+        </section>
+
+        <!-- View Section: Delivery Partner Console (NEW) -->
+        <section id="delivery-section" class="view-section" style="display: none;">
+            <div style="max-width: 900px; margin: 40px auto;">
+                <div class="delivery-hero glass" style="padding: 30px; border-radius: var(--radius-md); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2 style="color: var(--text-main);">MediSwift Courier Console</h2>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">Manage, accept, and update nearby deliveries in real-time</p>
+                    </div>
+                    <div class="status-indicator-tag" style="background: var(--primary-glow); color: var(--primary); padding: 8px 16px; border-radius: 50px; font-weight: 600; font-size: 13px; border: 1px solid rgba(16, 185, 129, 0.2);">
+                        ● Active Courier Status
+                    </div>
+                </div>
+
+                <div class="delivery-dashboard-grid" style="display: grid; grid-template-columns: 3fr 2fr; gap: 30px;">
+                    <!-- Available Orders List -->
+                    <div class="dashboard-widget glass" style="padding: 24px; border-radius: var(--radius-md); height: fit-content;">
+                        <h3 style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Nearby Pending Deliveries</h3>
+                        
+                        <!-- Geolocation Details and Radius Slider (NEW) -->
+                        <div style="background:rgba(0,0,0,0.02); border:1px solid var(--border-color); padding:12px; border-radius:var(--radius-sm); margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                            <div>
+                                <span style="font-size:11px; color:var(--text-muted); display:block; text-transform:uppercase; font-weight:700; letter-spacing:0.5px;">Courier GPS Coordinates</span>
+                                <strong style="font-size:12px;" id="courier-location-text">Detecting...</strong>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:12px; color:var(--text-muted);">Radius:</span>
+                                <input type="range" id="courier-radius-slider" min="1" max="50" value="10" style="width:80px; accent-color:var(--primary);">
+                                <strong style="font-size:12px; color:var(--primary);"><span id="courier-radius-val">10</span> km</strong>
+                            </div>
+                        </div>
+
+                        <div id="courier-available-orders">
+                            <!-- Populated with orders in CREATED status -->
+                        </div>
+                    </div>
+
+                    <!-- Accepted Active Delivery Target -->
+                    <div class="dashboard-widget glass" style="padding: 24px; border-radius: var(--radius-md);">
+                        <h3 style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Active Assignment</h3>
+                        <div id="courier-active-assignment">
+                            <div style="text-align: center; padding: 40px 0; color: var(--text-muted);">No active delivery assigned. Accept an order from the list on the left to start!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal: Medicine Details & Recommendations -->
+    <div class="modal-overlay" id="product-detail-modal">
+        <div class="modal-content glass">
+            <button class="modal-close" id="close-product-modal">&times;</button>
+            <div class="detail-header">
+                <h3 id="modal-title">Medicine Name</h3>
+                <span class="detail-category" id="modal-category">Cardiology</span>
+            </div>
+            
+            <div class="detail-section">
+                <div class="detail-section-title">Description</div>
+                <p id="modal-desc" style="font-size: 14px; color: var(--text-muted);"></p>
+            </div>
+            
+            <div class="detail-section">
+                <div class="detail-section-title">Side Effects & Contraindications</div>
+                <p id="modal-side-effects" style="font-size: 14px; color: var(--text-muted);"></p>
+            </div>
+
+            <div class="detail-section" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div class="detail-section-title">Availability</div>
+                    <div id="modal-stock" style="font-weight: 600;">In Stock</div>
+                </div>
+            </div>
+
+            <!-- Smart Suggestion Panel (Generic switches + Interactions) -->
+            <div class="smart-suggestion-box" id="modal-smart-box" style="display: none;"></div>
+
+            <div style="margin-top: 30px; display: flex; gap: 12px; justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="document.getElementById('product-detail-modal').classList.remove('active')">Cancel</button>
+                <button class="btn btn-primary" id="modal-add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Real-time Order Tracking Map -->
+    <div class="modal-overlay" id="order-tracking-modal">
+        <div class="modal-content glass" style="max-width: 550px;">
+            <button class="modal-close" id="close-tracking-modal">&times;</button>
+            <h3 style="margin-bottom: 8px;">Courier Live Tracking</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Order ID: <span id="tracking-order-id" style="font-weight: 700;">#0</span></p>
+            
+            <!-- Real-time Progress Bar -->
+            <div class="tracking-status-bar">
+                <div class="tracking-progress-fill" id="tracking-fill" style="width: 5%;"></div>
+                
+                <div class="status-node active">
+                    <div class="status-dot"></div>
+                    <div class="status-name">Placed</div>
+                </div>
+                <div class="status-node">
+                    <div class="status-dot"></div>
+                    <div class="status-name">Preparing</div>
+                </div>
+                <div class="status-node">
+                    <div class="status-dot"></div>
+                    <div class="status-name">Out for Delivery</div>
+                </div>
+                <div class="status-node">
+                    <div class="status-dot"></div>
+                    <div class="status-name">Delivered</div>
+                </div>
+            </div>
+
+            <!-- Map Simulation Canvas -->
+            <div class="map-simulation" style="margin-bottom: 24px;">
+                <canvas id="tracking-map-canvas"></canvas>
+            </div>
+
+            <div style="text-align: center; color: var(--text-muted); font-size: 13px;">
+                <p>Status updates sync instantly in real-time using Firebase Realtime Database.</p>
+                <!-- Quick simulation autothrottler toggle -->
+                <button class="btn btn-secondary btn-sm" id="sim-delivery-btn" style="margin-top: 12px; font-size: 11px; padding: 6px 12px;">
+                    Trigger Simulated Automated Delivery (Or accept manually as Courier)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Drawer panel -->
+    <div class="cart-drawer glass" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="qty-btn" id="close-cart" style="font-size: 18px;">&times;</button>
+        </div>
+        
+        <!-- Safety Warnings placeholder -->
+        <div id="cart-safety-alerts"></div>
+
+        <div class="cart-items-list" id="cart-items-list">
+            <!-- Populated via Javascript -->
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Subtotal:</span>
+                <span id="cart-subtotal">₹0.00</span>
+            </div>
+            <button class="btn btn-primary cart-checkout-btn" id="drawer-checkout-btn" onclick="goToCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK Scripts (Compat Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <!-- App Configuration & App Script -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
